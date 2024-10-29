@@ -3,44 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vamos dançar?</title>
+    <title>Ju, bora pro forró?</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body
     class="flex flex-col items-center justify-center h-screen m-0 bg-pink-100 text-pink-600 font-sans"
   >
-    <!-- Imagem no canto inferior esquerdo -->
-    <img
-      src="rosas.png"
-      alt="Imagem decorativa"
-      class="fixed bottom-0 left-0 w-40 h-40 md:w-60 md:h-60 lg:w-80 lg:h-80 transform scale-x-[-1] scale-y-[-1]"
-    />
-
-    <!-- Imagem no canto superior direito -->
-    <img
-      src="rosas.png"
-      alt="Imagem decorativa"
-      class="fixed top-0 right-0 w-40 h-40 md:w-60 md:h-60 lg:w-80 lg:h-80"
-    />
-
-    <!-- Pergunta e SVG -->
     <div class="flex items-center gap-5">
-      <img
-        src="Vector.svg"
-        alt="Imagem decorativa de samba"
-        class="w-20 h-auto"
-      />
       <div class="space-y-2 font-bold">
         <h1 class="md:text-5xl text-2xl text-pink-500" id="message">
-          Oi, Juu <br />
-          👋 Vamos dançar um <br />forrózinho amanhã?
+          Oi gatinha, <br />
+          Bora pro forró?
         </h1>
       </div>
-      <img
-        src="Vector.svg"
-        alt="Imagem decorativa de samba"
-        class="w-20 h-auto transform scale-x-[-1]"
-      />
     </div>
 
     <!-- Botões -->
@@ -49,18 +24,21 @@
         class="px-6 py-3 text-lg font-semibold text-white bg-green-500 rounded-lg animate-yes"
         onclick="animateYes()"
       >
-        <span class="bg-white p-1 rounded-full mr-1">👍</span>Sim
+        Sim
       </button>
       <button
         class="px-6 py-3 text-lg font-semibold text-white bg-red-500 rounded-lg cursor-pointer btn-no transition-all"
         onmouseover="flee()"
         onclick="flee()"
       >
-        <span class="bg-white p-1 rounded-full mr-1">💔</span>Não
+        Não
       </button>
     </div>
 
     <script>
+      let fleeCount = 0; // Contador de fugas do botão "Não"
+      let fleeLimit = 6; // Limite de fugas antes de parar
+
       function animateYes() {
         const yesButton = document.querySelector(".animate-yes");
         yesButton.classList.add(
@@ -73,20 +51,34 @@
 
         // Atualiza o texto dos headers para uma mensagem positiva
         document.getElementById("message").innerHTML =
-          "Uhuul!<br> <span class='text-base'>Às 19h começa a aula e às 20h começa o baile 💃🎉.<br/>A aula é super divertida de ir, me avisa o horário que for melhor pra você.</span>";
+          "<img src='meme_sim.jpg' class='h-96' />";
       }
 
       function flee() {
         const noButton = document.querySelector(".btn-no");
-        const randomX = Math.floor(
-          Math.random() * (window.innerWidth - noButton.offsetWidth)
-        );
-        const randomY = Math.floor(
-          Math.random() * (window.innerHeight - noButton.offsetHeight)
-        );
-        noButton.style.position = "absolute";
-        noButton.style.left = randomX + "px";
-        noButton.style.top = randomY + "px";
+
+        // Verifica se o número de fugas atingiu o limite
+        if (fleeCount < fleeLimit) {
+          // Incrementa o contador de fugas
+          fleeCount++;
+
+          // Move o botão "Não" para uma posição aleatória
+          const randomX = Math.floor(
+            Math.random() * (window.innerWidth - noButton.offsetWidth)
+          );
+          const randomY = Math.floor(
+            Math.random() * (window.innerHeight - noButton.offsetHeight)
+          );
+          noButton.style.position = "absolute";
+          noButton.style.left = randomX + "px";
+          noButton.style.top = randomY + "px";
+        } else {
+          // Quando o limite é atingido, permite o clique no botão "Não"
+          noButton.onclick = function () {
+            document.getElementById("message").innerHTML =
+              "<img src='meme_nao.jpg' class='h-96' />";
+          };
+        }
       }
     </script>
   </body>
